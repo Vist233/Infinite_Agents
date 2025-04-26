@@ -72,16 +72,22 @@ var (
 func init() {
 	// 解析模板文件
 	// 注意：路径相对于项目根目录或运行 `go run` 的目录
-	// 确保 templates 目录在正确的位置
-	templateFiles, err := filepath.Glob("app/templates/*.html")
+	// 确保 app 目录包含 HTML 文件
+	templateFiles, err := filepath.Glob("app/*.html") // 修改路径以匹配 app/*.html
 	if err != nil || len(templateFiles) == 0 {
-		log.Fatalf("Error finding templates or no templates found: %v", err)
+		// 如果 Glob 成功但未找到文件，err 为 nil，但 len(templateFiles) 为 0
+		if err == nil && len(templateFiles) == 0 {
+			log.Fatalf("Error: No template files found matching 'app/*.html'")
+		} else {
+			log.Fatalf("Error finding templates: %v", err)
+		}
 	}
+	log.Printf("Found templates: %v", templateFiles) // 添加日志记录找到的模板
 	templates = template.Must(template.ParseFiles(templateFiles...))
 
 	// 惰性加载 API Key
 	apiKeyOnce.Do(func() {
-		apiKey = os.Getenv("DEEPSEEK_API_KEY")
+		apiKey = "sk-742ea2cb892f40e0aca39b579143400a"
 		if apiKey == "" {
 			log.Println("Warning: DEEPSEEK_API_KEY environment variable not set.")
 			// 在这里可以设置一个默认的测试 key，但不推荐用于生产
@@ -98,9 +104,10 @@ func handleIndex(w http.ResponseWriter, r *http.Request) {
 	data := map[string]interface{}{
 		// "messages": []Message{}, // 初始消息（如果需要）
 	}
-	err := templates.ExecuteTemplate(w, "main.html", data)
+	// 使用基本文件名作为模板名称执行
+	err := templates.ExecuteTemplate(w, "main.html", data) // 确保模板名称正确
 	if err != nil {
-		log.Printf("Error executing template: %v", err)
+		log.Printf("Error executing template 'main.html': %v", err)
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 	}
 }
@@ -260,4 +267,4 @@ func main() {
 	}
 }
 
-```
+

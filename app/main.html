@@ -16,17 +16,14 @@
     <div class="chat-area">
       <!-- 消息区域 -->
       <div class="message-area" id="messageArea">
-        <!-- 初始消息可以由 Go 模板引擎渲染，如果需要 -->
-        <!-- {% if messages %} ... {% endif %} -->
         <!-- 消息将由 JS 动态添加 -->
       </div>
 
       <!-- Input form - submission handled by JS -->
-      <!-- 表单不再需要 method="post" 或 action 属性，因为提交由 JS 控制 -->
       <form id="messageForm" class="input-area">
         <select name="agent" id="agentSelect" class="agent-select">
           <option value="paperai">Paper Chat</option>
-          <option value="chater" selected>Chater</option> <!-- 移除 (RAG) -->
+          <option value="chater" selected>Chater</option>
           <!-- Add other agent options here if needed -->
         </select>
         <input
@@ -34,7 +31,7 @@
           class="input-box"
           id="userInput"
           name="userInput"
-          placeholder="Input something here..." <!-- 移除 "or upload a file..." -->
+          placeholder="Input something here..."
           required
           autocomplete="off"
         />
