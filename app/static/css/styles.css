@@ -1,0 +1,328 @@
+body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #1e1e1e;
+      color: white;
+    }
+
+    .container-fluid {
+      display: flex;
+      height: 100vh;
+    }
+
+    .chat-area {
+      /* Let chat area take full width */
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      /* Removed border-right */
+    }
+
+    .message-area {
+      flex: 1;
+      overflow-y: auto;
+      padding: 15px;
+      background-color: #1e1e1e;
+    }
+
+    .message {
+      display: flex;
+      margin-bottom: 15px;
+    }
+
+    .message.user {
+      justify-content: flex-end;
+    }
+
+    .message.ai {
+      justify-content: flex-start;
+    }
+
+    .bubble {
+      max-width: 80%; /* Allow bubbles to be wider */
+      padding: 10px 15px;
+      border-radius: 20px;
+      word-wrap: break-word;
+    }
+
+    .message.user .bubble {
+      background-color: #434343;
+      color: white;
+    }
+
+    .message.ai .bubble {
+      background-color: #444;
+      color: white;
+    }
+
+    .input-area {
+      display: flex;
+      padding: 10px;
+      background-color: #333;
+      align-items: center; /* Align items vertically */
+    }
+
+    .input-box {
+      flex: 1;
+      padding: 10px;
+      background-color: #444;
+      border: none;
+      color: white;
+      border-radius: 5px; /* Rounded corners for input */
+      margin-right: 5px; /* Space before buttons */
+    }
+
+    .send-button, .stop-button, .upload-button, .clear-button {
+      padding: 10px 15px; /* Uniform padding */
+      border: none;
+      color: white;
+      border-radius: 5px; /* Uniform radius */
+      cursor: pointer;
+      margin-left: 5px; /* Space between buttons */
+      white-space: nowrap; /* Prevent button text wrapping */
+    }
+
+    .send-button {
+      background-color: #007bff; /* Blue send */
+    }
+    .send-button:hover {
+      background-color: #0056b3;
+    }
+
+    .stop-button {
+      background-color: #dc3545; /* Red stop */
+    }
+    .stop-button:hover {
+      background-color: #c82333;
+    }
+
+    .upload-button {
+      background-color: #6c757d; /* Grey upload */
+    }
+    .upload-button:hover:not(:disabled) {
+      background-color: #5a6268;
+    }
+    .upload-button:disabled {
+        background-color: #495057;
+        cursor: not-allowed;
+        opacity: 0.65;
+    }
+
+    .clear-button {
+        background-color: #ffc107; /* Yellow clear */
+        color: #333;
+    }
+    .clear-button:hover {
+        background-color: #e0a800;
+    }
+
+    .agent-select {
+      padding: 10px;
+      margin-right: 10px; /* Space after select */
+      background-color: #444;
+      border: 1px solid #555;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      outline: none;
+      font-size: 13px;
+    }
+
+    .agent-select:hover {
+      background-color: #505050;
+    }
+
+    .agent-select option {
+      background-color: #333;
+      color: white;
+      padding: 10px;
+      font-size: 14px;
+    }
+
+    .agent-select option:hover {
+      background-color: #444;
+    }
+
+/* Markdown content styling */
+.markdown-content {
+  line-height: 1.6;
+}
+
+.markdown-content code {
+  background-color: #f6f8fa;
+  padding: 0.2em 0.4em;
+  border-radius: 3px;
+  font-family: monospace;
+  font-size: 0.9em;
+}
+
+.markdown-content pre {
+  background-color: #f6f8fa;
+  border-radius: 6px;
+  padding: 16px;
+  overflow: auto;
+  font-family: monospace;
+  margin: 10px 0;
+}
+
+.markdown-content pre code {
+  background-color: transparent;
+  padding: 0;
+}
+
+.markdown-content h1, 
+.markdown-content h2, 
+.markdown-content h3, 
+.markdown-content h4, 
+.markdown-content h5, 
+.markdown-content h6 {
+  margin-top: 24px;
+  margin-bottom: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.markdown-content table {
+  border-collapse: collapse;
+  margin: 15px 0;
+  width: 100%;
+}
+
+.markdown-content table th,
+.markdown-content table td {
+  border: 1px solid #dfe2e5;
+  padding: 6px 13px;
+}
+
+.markdown-content img {
+  max-width: 100%;
+  height: auto;
+}
+
+.markdown-content blockquote {
+  padding: 0 1em;
+  color: #6a737d;
+  border-left: 0.25em solid #dfe2e5;
+  margin: 0 0 16px 0;
+}
+
+/* Markdown content styling within AI bubbles */
+.message.ai .bubble.markdown-content {
+  line-height: 1.6; /* Improve readability */
+}
+
+.message.ai .bubble.markdown-content code {
+  background-color: #333; /* Darker background for inline code */
+  padding: 0.2em 0.4em;
+  margin: 0 0.2em;
+  border-radius: 3px;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  font-size: 0.9em;
+  color: #ccc; /* Lighter text for code */
+}
+
+.message.ai .bubble.markdown-content pre {
+  background-color: #2d2d2d; /* Slightly different background for code blocks */
+  border: 1px solid #444;
+  border-radius: 6px;
+  padding: 16px;
+  overflow: auto;
+  font-family: Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace;
+  margin: 10px 0;
+  color: #ccc; /* Lighter text for code blocks */
+}
+
+.message.ai .bubble.markdown-content pre code {
+  background-color: transparent; /* Reset background for code inside pre */
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+
+.message.ai .bubble.markdown-content h1,
+.message.ai .bubble.markdown-content h2,
+.message.ai .bubble.markdown-content h3,
+.message.ai .bubble.markdown-content h4,
+.message.ai .bubble.markdown-content h5,
+.message.ai .bubble.markdown-content h6 {
+  margin-top: 1em;
+  margin-bottom: 0.5em;
+  font-weight: 600;
+  line-height: 1.25;
+  border-bottom: 1px solid #555; /* Add subtle separator for headings */
+  padding-bottom: 0.3em;
+}
+
+.message.ai .bubble.markdown-content h1 { font-size: 1.8em; }
+.message.ai .bubble.markdown-content h2 { font-size: 1.5em; }
+.message.ai .bubble.markdown-content h3 { font-size: 1.3em; }
+
+.message.ai .bubble.markdown-content table {
+  border-collapse: collapse;
+  margin: 15px 0;
+  width: auto; /* Adjust width as needed */
+  border: 1px solid #555;
+}
+
+.message.ai .bubble.markdown-content table th,
+.message.ai .bubble.markdown-content table td {
+  border: 1px solid #555;
+  padding: 6px 13px;
+  text-align: left;
+}
+
+.message.ai .bubble.markdown-content table th {
+  background-color: #3a3a3a; /* Header background */
+  font-weight: bold;
+}
+
+.message.ai .bubble.markdown-content img {
+  max-width: 100%;
+  height: auto;
+  margin: 10px 0;
+  border-radius: 4px; /* Optional: slightly rounded images */
+}
+
+.message.ai .bubble.markdown-content blockquote {
+  padding: 0 1em;
+  color: #aaa; /* Lighter color for blockquotes */
+  border-left: 0.25em solid #555;
+  margin: 1em 0;
+}
+
+.message.ai .bubble.markdown-content ul,
+.message.ai .bubble.markdown-content ol {
+  padding-left: 2em; /* Indent lists */
+  margin: 1em 0;
+}
+
+.message.ai .bubble.markdown-content li {
+  margin-bottom: 0.4em; /* Spacing between list items */
+}
+
+/* Status Area Styling */
+.status-area {
+    padding: 5px 15px;
+    background-color: #333;
+    color: #ccc;
+    font-size: 0.9em;
+    text-align: center;
+    min-height: 28px; /* Ensure it has height even when empty */
+    line-height: 18px; /* Vertically center text */
+    transition: background-color 0.3s ease;
+}
+
+.status-area.status-info {
+    background-color: #17a2b8; /* Info blue */
+    color: white;
+}
+
+.status-area.status-success {
+    background-color: #28a745; /* Success green */
+    color: white;
+}
+
+.status-area.status-error {
+    background-color: #dc3545; /* Error red */
+    color: white;
+}

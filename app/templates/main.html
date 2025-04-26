@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Infinite Agents</title>
+  <link rel="icon" type="image/png" href="{{ url_for('static', filename='logo.png') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+  <!-- Socket.IO Client Library -->
+  <script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+</head>
+
+<body>
+  <div class="container-fluid vh-100 d-flex">
+    <!-- Chat area takes full width -->
+    <div class="chat-area">
+      <!-- 消息区域 -->
+      <div class="message-area" id="messageArea">
+        <!-- Initial messages loaded from session (optional, can be fully dynamic) -->
+        {% if messages %}
+          {% for message in messages %}
+            <div class="message {{ message.type }}">
+              {% if message.type == "ai" %}
+                <!-- AI messages will now have an ID for streaming updates -->
+                <div class="bubble markdown-content" id="ai-msg-{{ loop.index0 }}">{{ message.text|safe }}</div>
+              {% else %}
+                <div class="bubble">{{ message.text }}</div>
+              {% endif %}
+            </div>
+          {% endfor %}
+        {% endif %}
+        <!-- Messages added dynamically by JS will appear here -->
+      </div>
+
+      <!-- Status Area for Uploads/RAG -->
+      <div id="statusArea" class="status-area"></div>
+
+      <!-- Input form - submission handled by JS -->
+      <form id="messageForm" class="input-area">
+        <select name="agent" id="agentSelect" class="agent-select">
+          <option value="paperai">Paper Chat</option>
+          <option value="chater" selected>Chater (RAG)</option> <!-- Updated label -->
+          <!-- Add other agent options here if needed -->
+        </select>
+        <input
+          type="text"
+          class="input-box"
+          id="userInput"
+          name="userInput"
+          placeholder="Input something here or upload a file..."
+          required
+          autocomplete="off"
+        />
+        <button type="submit" class="send-button" id="sendButton">Send</button>
+        <button type="button" class="stop-button" id="stopButton" style="display: none;">Stop</button>
+        <!-- File Upload Elements -->
+        <input type="file" id="fileInput" style="display: none;" accept=".pdf,.txt,.docx"> <!-- Hidden file input -->
+        <button type="button" class="upload-button" id="selectFileButton">File</button> <!-- Button to trigger file input -->
+        <button type="button" class="upload-button" id="uploadButton" disabled>Upload</button> <!-- Upload button -->
+        <button type="button" class="clear-button" id="clearRagButton">Clear</button> <!-- Clear RAG Context -->
+      </form>
+    </div>
+  </div>
+  <!-- Marked library for Markdown rendering -->
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <!-- Custom JS for SocketIO and DOM manipulation -->
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>
